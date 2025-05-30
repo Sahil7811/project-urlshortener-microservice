@@ -1,38 +1,159 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
   <head>
-    <title>URL Shortener Microservice | freeCodeCamp.org</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Shortener Microservice</title>
     <link
       rel="icon"
       type="image/png"
       href="https://cdn.freecodecamp.org/universal/favicons/favicon-16x16.png"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link href="/public/style.css" rel="stylesheet" type="text/css" />
   </head>
-
   <body>
-    <h1>URL Shortener Microservice</h1>
-    <main>
-      <section>
-        <form action="api/shorturl" method="POST">
-          <fieldset>
-            <legend>URL Shortener</legend>
-            <label for="url_input">URL:</label>
-            <input
-              id="url_input"
-              type="text"
-              name="url"
-              placeholder="https://www.freecodecamp.org/"
-            />
-            <input type="submit" value="POST URL" />
-          </fieldset>
-        </form>
-        <p>Redirect To <a href="http://localhost:3000/api/shorturl/:short_url">Original_Url</a></p>
-      </section>
-    </main>
+    <!-- Floating Particles -->
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <div class="container">
+      <h1>URL Shortener</h1>
+      <p class="subtitle">Transform long URLs into elegant, shareable links</p>
+
+      <main>
+        <section class="glass-card">
+          <form action="api/shorturl" method="POST">
+            <fieldset>
+              <legend>Create Short URL</legend>
+              <div class="input-group">
+                <label for="url_input">Enter URL</label>
+                <input
+                  id="url_input"
+                  type="text"
+                  name="url"
+                  placeholder="https://www.example-long-url.com/"
+                  required
+                />
+              </div>
+              <input type="submit" value="Shorten URL" class="submit-btn" />
+            </fieldset>
+          </form>
+
+          <div class="redirect-info">
+            <p>
+              Access your shortened URL at:
+              <a href="http://localhost:3000/api/shorturl/:short_url"
+                >localhost:3000/api/shorturl/:id</a
+              >
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
     <footer>
-      <p>By <a href="https://www.freecodecamp.org/">freeCodeCamp</a></p>
+      <p>
+        Crafted with ❤️ by
+        <a href="https://www.freecodecamp.org/" target="_blank" rel="noopener"
+          >freeCodeCamp</a
+        >
+      </p>
     </footer>
+
+    <script>
+      // Enhanced click effects
+      document.addEventListener("click", function (e) {
+        const clickEffect = document.createElement("div");
+        clickEffect.className = "click-effect";
+        clickEffect.style.left = e.clientX - 50 + "px";
+        clickEffect.style.top = e.clientY - 50 + "px";
+        document.body.appendChild(clickEffect);
+
+        setTimeout(() => {
+          document.body.removeChild(clickEffect);
+        }, 800);
+      });
+
+      // Enhanced form validation with smooth feedback
+      const form = document.querySelector("form");
+      const urlInput = document.getElementById("url_input");
+
+      urlInput.addEventListener("input", function () {
+        const url = this.value;
+        const isValid = /^https?:\/\/.+/.test(url);
+
+        if (url.length > 0) {
+          this.style.borderColor = isValid ? "var(--accent-color)" : "#ff6b6b";
+          this.style.boxShadow = isValid
+            ? "0 0 0 4px rgba(0, 245, 255, 0.1), 0 0 20px rgba(0, 245, 255, 0.2)"
+            : "0 0 0 4px rgba(255, 107, 107, 0.1), 0 0 20px rgba(255, 107, 107, 0.2)";
+        } else {
+          this.style.borderColor = "rgba(255, 255, 255, 0.1)";
+          this.style.boxShadow = "none";
+        }
+      });
+
+      // Smooth submit animation
+      form.addEventListener("submit", function (e) {
+        const submitBtn = this.querySelector(".submit-btn");
+        submitBtn.style.transform = "scale(0.95)";
+        submitBtn.innerHTML = "✨ Creating Magic...";
+
+        setTimeout(() => {
+          submitBtn.style.transform = "scale(1)";
+        }, 200);
+      });
+
+      // Particle animation optimization
+      function optimizeParticles() {
+        const particles = document.querySelectorAll(".particle");
+        particles.forEach((particle, index) => {
+          const delay = Math.random() * 20;
+          const duration = 15 + Math.random() * 10;
+          particle.style.animationDelay = delay + "s";
+          particle.style.animationDuration = duration + "s";
+        });
+      }
+
+      // Initialize optimizations
+      document.addEventListener("DOMContentLoaded", function () {
+        optimizeParticles();
+
+        // Add subtle mouse movement parallax
+        document.addEventListener("mousemove", function (e) {
+          const mouseX = e.clientX / window.innerWidth;
+          const mouseY = e.clientY / window.innerHeight;
+
+          const card = document.querySelector(".glass-card");
+          const moveX = (mouseX - 0.5) * 20;
+          const moveY = (mouseY - 0.5) * 20;
+
+          card.style.transform = `perspective(1000px) rotateX(${
+            moveY * 0.1
+          }deg) rotateY(${moveX * 0.1}deg)`;
+        });
+      });
+
+      // Performance optimization for reduced motion
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.querySelectorAll(".particle").forEach((particle) => {
+          particle.style.display = "none";
+        });
+      }
+    </script>
   </body>
 </html>
